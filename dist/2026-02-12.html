@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily News - 2026-02-12</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fafafa;
+            --bg-secondary: #f5f5f5;
+            --bg-terminal: #1a1a1a;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --accent: #2563eb;
+            --accent-light: #3b82f6;
+            --border: #e5e5e5;
+            --border-light: #f0f0f0;
+            --star: #f59e0b;
+            --code-bg: #f4f4f4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Terminal Header */
+        .terminal-header {
+            background: var(--bg-terminal);
+            color: #fff;
+            padding: 1rem 2rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .terminal-line {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .terminal-prompt {
+            color: #10b981;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background: #10b981;
+            animation: blink 1s infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Navigation */
+        .nav-container {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            overflow-x: auto;
+        }
+
+        .date-nav {
+            display: flex;
+            gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+        }
+
+        .date-link {
+            padding: 0.5rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .date-link:hover {
+            background: var(--bg-primary);
+            color: var(--accent);
+        }
+
+        .date-link.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 3rem;
+        }
+
+        /* Summary Section */
+        .summary-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .summary-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-topic {
+            font-weight: 600;
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+
+        .summary-content {
+            color: var(--text-secondary);
+        }
+
+        /* News Sections */
+        .news-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .star-rating {
+            color: var(--star);
+            font-size: 0.875rem;
+        }
+
+        .news-item {
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: white;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .news-item:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+        }
+
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .news-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            line-height: 1.4;
+        }
+
+        .news-title:hover {
+            color: var(--accent);
+        }
+
+        .news-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: var(--code-bg);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .news-summary {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.75rem;
+            }
+
+            .news-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .nav-container {
+                padding: 0.75rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="terminal-header">
+        <div class="terminal-line">
+            <span class="terminal-prompt">$</span>
+            <span>daily-news --date 2026-02-12</span>
+            <span class="terminal-cursor"></span>
+        </div>
+        <div class="terminal-line">
+            <span class="terminal-prompt">&gt;</span>
+            <span>Generating report... Done.</span>
+        </div>
+    </header>
+
+    <nav class="nav-container">
+        <div class="date-nav">
+            <a href="2026-02-16.html" class="date-link ">2026-02-16</a><a href="2026-02-13.html" class="date-link ">2026-02-13</a><a href="2026-02-12.html" class="date-link active">2026-02-12</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1 class="page-title">Daily News</h1>
+        <p class="page-subtitle">// 2026-02-12</p>
+
+        <section class="summary-section">
+            <div class="section-title">$ cat summary.md</div>
+            
+        <div class="summary-item">
+            <span class="summary-topic">技术动态</span>
+            <span class="summary-content">平台政策更新、开发者工具、AI 相关讨论</span>
+        </div>
+        
+        <div class="summary-item">
+            <span class="summary-topic">行业趋势</span>
+            <span class="summary-content">应用商店竞争、内容监管、用户隐私</span>
+        </div>
+        
+        </section>
+
+        <section class="news-section">
+            <div class="section-header">
+                <span class="section-name">五星推荐</span>
+                <span class="star-rating">★★★★★</span>
+            </div>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/c626rng1v63o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Apple and Google agree to change app stores after 'effective duopoly' claim</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">Apple and Google agree to change app stores after 'effective duopoly' claim rss-bbc-tech  2026-02-10</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/cy8yw190q83o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Apple reports best-ever iPhone sales as Mac dips</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">Apple reports best-ever iPhone sales as Mac dips rss-bbc-tech  2026-01-30</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/cp8zd176516o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">The showers and baths keeping data centre tech cool</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">The showers and baths keeping data centre tech cool rss-bbc-tech  2025-12-23</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/02/11/apples-siri-revamp-reportedly-delayed-again/" class="news-title" target="_blank" rel="noopener">Apple’s Siri revamp reportedly delayed… again</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">Apple’s Siri revamp reportedly delayed… again rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/02/11/cash-app-adds-payment-links-so-you-can-get-paid-in-a-dm/" class="news-title" target="_blank" rel="noopener">Cash App adds payment links so you can get paid in a DM</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">Cash App adds payment links so you can get paid in a DM rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/02/11/google-releases-the-first-beta-of-android-17-adopts-a-continous-developer-release-plan/" class="news-title" target="_blank" rel="noopener">Google releases the first beta of Android 17, adopts a continuous developer release plan</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">Google releases the first beta of Android 17, adopts a continuous developer release plan rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/02/11/how-ai-changes-the-math-for-startups-according-to-a-microsoft-vp/" class="news-title" target="_blank" rel="noopener">How AI changes the math for startups, according to a Microsoft VP</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">How AI changes the math for startups, according to a Microsoft VP rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://scitechdaily.com/researchers-warn-wifi-could-become-an-invisible-mass-surveillance-system/" class="news-title" target="_blank" rel="noopener">WiFi could become an invisible mass surveillance system</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">WiFi could become an invisible mass surveillance system rss-hackernews  2026-02-07</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://github.com/zai-org/GLM-OCR" class="news-title" target="_blank" rel="noopener">GLM-OCR – A multimodal OCR model for complex document understanding</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">GLM-OCR – A multimodal OCR model for complex document understanding rss-hackernews  2026-02-07</p>
+            </article>
+            
+        </section>
+        
+        <section class="news-section">
+            <div class="section-header">
+                <span class="section-name">四星推荐</span>
+                <span class="star-rating">★★★★☆</span>
+            </div>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://github.com/JaredStewart/coderlm/blob/main/server/REPL_to_API.md" class="news-title" target="_blank" rel="noopener">Show HN: CodeRLM – Tree-sitter-backed code indexing for LLM agents</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">Show HN: CodeRLM – Tree-sitter-backed code indexing for LLM agents rss-hackernews  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/cqxdj77welpo?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">EU tells Meta to let rivals run AI chatbots on WhatsApp</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-02-09</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/c24g457y534o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Baldur's Gate to be turned into TV series - without the game's developers</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-02-06</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/cvgjg98vmzjo?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Google staff call for firm to cut ties with ICE</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-02-06</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/cyv5l24mrjmo?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Musk's SpaceX applies to launch a million satellites into orbit</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-01-31</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/c620177qdg5o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Tesla cuts car models in shift to robots and AI</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-01-29</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.co.uk/iplayer/episode/m002qbkc?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Tech Now</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-01-17</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.co.uk/sounds/play/w3ct6zpz?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Tech Life</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-01-13</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/newsround/videos/cx2y0xe8ex2o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Cool future tech at CES!</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-01-08</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.co.uk/sounds/play/w3ct6zpy?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Tech Life</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-01-06</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/videos/c98p1jg3p58o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Watch: BBC reporter tests AI anti-shoplifting tech</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-01-05</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.co.uk/sounds/play/w3ct6zpx?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Tech Life</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2025-12-30</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.co.uk/sounds/play/w3ct6zpv?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Tech Life</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2025-12-16</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/c2e102vw1z2o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Why food fraud persists, even with improving tech</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-02-10</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/c78e4l3rm22o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Are 'tech dense' farms the future of farming?</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-01-20</p>
+            </article>
+            
+        </section>
+        
+        <section class="news-section">
+            <div class="section-header">
+                <span class="section-name">值得一看</span>
+                <span class="star-rating">★★★☆☆</span>
+            </div>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/cd0ynenr1eno?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Honey, I shrunk the data centres: Is small the new big?</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-01-14</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/cwyxkzjpp87o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Excel: The software that's hard to quit</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-01-09</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/cly5gen0gj8o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Will tech trump tradition at bakers and biscuit makers?</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2025-12-19</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/c751xw96e9yo?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Will boats be a breakthrough for 3D printing tech?</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2025-11-28</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/cjekg1pd9j4o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Can technology fix fashion's sizing crisis?</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2025-11-15</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/02/11/xai-lays-out-interplanetary-ambitions-in-public-all-hands/" class="news-title" target="_blank" rel="noopener">xAI lays out interplanetary ambitions in public all-hands</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/02/11/ai-inference-startup-modal-labs-in-talks-to-raise-at-2-5b-valuation-sources-say/" class="news-title" target="_blank" rel="noopener">AI inference startup Modal Labs in talks to raise at $2.5B valuation, sources say</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/02/11/openai-disbands-mission-alignment-team-which-focused-on-safe-and-trustworthy-ai-development/" class="news-title" target="_blank" rel="noopener">OpenAI disbands mission alignment team</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/02/11/uber-eats-launches-ai-assistant-to-help-with-grocery-cart-creation/" class="news-title" target="_blank" rel="noopener">Uber Eats launches AI assistant to help with grocery cart creation</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/video/who-will-own-your-companys-ai-layer-gleans-ceo-explains/" class="news-title" target="_blank" rel="noopener">Who will own your company’s AI layer? Glean’s CEO explains</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/02/11/senior-engineers-including-co-founders-exit-xai-amid-controversy/" class="news-title" target="_blank" rel="noopener">Elon Musk suggests spate of xAI exits have been push, not pull</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/02/11/microsoft-says-hackers-are-exploiting-critical-zero-day-bugs-to-target-windows-and-office-users/" class="news-title" target="_blank" rel="noopener">Microsoft says hackers are exploiting critical zero-day bugs to target Windows and Office users</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/02/11/why-the-economics-of-orbital-ai-are-so-brutal/" class="news-title" target="_blank" rel="noopener">Why the economics of orbital AI are so brutal</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/02/11/threads-new-dear-algo-ai-feature-lets-you-personalize-your-feed/" class="news-title" target="_blank" rel="noopener">Threads’ new ‘Dear Algo’ AI feature lets you personalize your feed</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/02/11/twilio-co-founders-fusion-power-startup-raises-450m-from-bessemer-and-alphabets-gv/" class="news-title" target="_blank" rel="noopener">Twilio co-founder’s fusion power startup raises $450M from Bessemer and Alphabet’s GV</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-techcrunch  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://github.com/tonyyont/peon-ping" class="news-title" target="_blank" rel="noopener">Warcraft III Peon Voice Notifications for Claude Code</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-hackernews  2026-02-12</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://dlang.org/" class="news-title" target="_blank" rel="noopener">D Programming Language</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-hackernews  2026-02-12</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://z.ai/blog/glm-5" class="news-title" target="_blank" rel="noopener">GLM-5: Targeting complex systems engineering and long-horizon agentic tasks</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-hackernews  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bloomberg.com/news/articles/2026-02-11/apple-s-ios-26-4-siri-update-runs-into-snags-in-internal-testing-ios-26-5-27" class="news-title" target="_blank" rel="noopener">Apple's latest attempt to launch the new Siri runs into snags</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-hackernews  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://github.com/simplex-micro/riscv-vector-primer/blob/main/index.md" class="news-title" target="_blank" rel="noopener">RISC-V Vector Primer</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-hackernews  2026-02-07</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/cn71mgmzljlo?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Instagram boss: 16 hours of daily use is 'problematic,' not addiction</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-02-12</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/c89kl834nv9o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Children bombarded with weight loss drug ads online, says commissioner</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-02-11</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/c3wlpqpe2z4o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Instagram and YouTube owners built 'addiction machines', trial hears</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-02-10</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/c1d67vdlk1ko?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Discord to start requiring face scan or ID to access adult content</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-02-09</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/c3093gjy2ero?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">AI chatbots pose 'dangerous' risk when giving medical advice, study suggests</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-02-09</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.bbc.com/news/articles/cq5y5w148p5o?at_medium=RSS&at_campaign=rss" class="news-title" target="_blank" rel="noopener">Uber ordered to pay $8.5m over claim driver raped passenger</a>
+                    <span class="news-meta"></span>
+                </div>
+                <p class="news-summary">rss-bbc-tech  2026-02-06</p>
+            </article>
+            
+        </section>
+        
+
+        <footer class="footer">
+            <p>Generated by Daily News Skill | Cloudflare Pages</p>
+        </footer>
+    </main>
+</body>
+</html>
