@@ -496,9 +496,10 @@ def generate_html(data, all_dates):
 
 def build():
     """构建网站"""
-    workspace = Path.home() / 'daily-news'
-    output_dir = workspace / 'output'
-    dist_dir = workspace / 'website/dist'
+    # 使用相对于脚本文件的路径，兼容本地和 Cloudflare Pages 环境
+    script_dir = Path(__file__).parent  # website/ 目录
+    output_dir = script_dir / 'output'
+    dist_dir = script_dir / 'dist'
 
     # 清理并重建 dist
     if dist_dir.exists():
