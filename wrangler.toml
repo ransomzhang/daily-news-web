@@ -1,2 +1,6 @@
 name = "daily-news-web"
 compatibility_date = "2026-02-16"
+pages_build_output_dir = "dist"
+
+[env.production]
+name = "daily-news-web"
